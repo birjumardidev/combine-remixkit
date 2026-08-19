@@ -25,7 +25,7 @@ export function SiteHeader() {
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-neutral-900 shadow-md shadow-violet-500/25 transition-all duration-300 group-hover:shadow-violet-500/40 group-hover:scale-105 lg:h-10 lg:w-10">
             <Wand2 className="h-[17px] w-[17px] text-white lg:h-5 lg:w-5" />
           </span>
-          <span className="text-[1.05rem] font-bold tracking-tight text-neutral-900 lg:text-xl">
+          <span className="text-[1.05rem] font-bold tracking-tight text-neutral-900 lg:text-lg">
             RemixKit
           </span>
         </Link>
@@ -36,7 +36,7 @@ export function SiteHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className="relative rounded-lg px-3.5 py-2 text-sm font-medium text-neutral-600 transition-all duration-200 hover:text-neutral-900 hover:bg-neutral-100 lg:px-4.5 lg:py-2.5 lg:text-lg lg:font-semibold"
+              className="relative rounded-lg px-3.5 py-2 text-sm font-medium text-neutral-600 transition-all duration-200 hover:text-neutral-900 hover:bg-neutral-100 lg:px-4.5 lg:py-2.5 lg:text-base lg:font-semibold"
             >
               {link.label}
             </Link>
@@ -46,7 +46,7 @@ export function SiteHeader() {
         {/* CTA */}
         <Link
           href="/generate"
-          className="hidden sm:inline-flex items-center gap-2 rounded-full bg-neutral-900 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-neutral-700 hover:shadow-lg hover:shadow-neutral-900/15 active:scale-[0.98] lg:px-7 lg:py-3.5 lg:text-[16px]"
+          className="hidden sm:inline-flex items-center gap-2 rounded-full bg-neutral-900 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-neutral-700 hover:shadow-lg hover:shadow-neutral-900/15 active:scale-[0.98] lg:px-7 lg:py-3 lg:text-[15px]"
         >
           <Sparkles className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
           Generate Prompt

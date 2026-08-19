@@ -50,7 +50,7 @@ export default function HomePage() {
             }}
           />
 
-          <div className="mx-auto max-w-6xl px-4 pb-20 pt-16 sm:px-6 sm:pb-24 sm:pt-24 lg:max-w-7xl xl:max-w-[1380px] lg:px-8 lg:pb-32 lg:pt-28">
+          <div className="mx-auto max-w-6xl px-4 pb-20 pt-16 sm:px-6 sm:pb-24 sm:pt-24 lg:max-w-7xl xl:max-w-[1380px] lg:px-8 lg:pb-32 lg:pt-20">
             <div className="mx-auto max-w-3xl text-center lg:max-w-4xl">
               {/* Badge */}
               <div className="animate-fade-up inline-flex items-center gap-2 rounded-full border border-violet-200/80 bg-violet-50 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[.18em] text-violet-700 shadow-sm lg:px-4.5 lg:py-2 lg:text-sm">
