@@ -78,11 +78,12 @@ export async function POST(request: Request) {
         - Textures & Overlays: Specify paper textures, film grain, graphic widgets, handwriting script, or digital painterly effects.
         - Fine Details: Capture micro-details like apparel textures, accessories, jewelry, background depth, or specialized brushwork.
 
-        SELECTED FEATURES TO COPY: ${included.join(", ")}.
-        EXCLUSION RULES: ${ignored || "Extract all key visual details freely."}
+        3. STRICTLY FOLLOW THE USER'S SELECTIONS:
+        - SELECTED FEATURES TO COPY: ${included.join(", ")}.
+        - EXCLUSION RULES: ${ignored || "Extract all key visual details freely."}
 
         STRICT CONSTRAINTS:
-        - Always refer to the target subject strictly as "[uploaded image]", example - "cinematic portrait of [uploaded image] in this .." .
+        - Always refer to the target subject strictly as "the subject", example - "cinematic portrait of the subject in this .." .
         - Never use terms like "sensual", "intimate", "erotic", or "bare skin". Use neutral terms like "warm aesthetic" or "cultural attire".
         - Do not use real brand or trademark names; describe visual elements generically.
         - Keep the subject description generic without inferring specific personal identities.`,
