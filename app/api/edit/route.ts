@@ -58,8 +58,8 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         image_urls: [dataUrl],
         model: "google/gemini-2.5-flash",
-        temperature: 0.3,
-        max_tokens: 300,
+        temperature: 0.2,
+        max_tokens: 320,
         system_prompt:
           "You are an expert AI prompt engineer and visual style analyst. Output strictly a single detailed image generation prompt or CONTENT_POLICY_VIOLATION. No introduction, conversational text, or markdown formatting.",
         prompt: `CONTENT ASSESSMENT & STYLE-ADAPTIVE PROMPT GENERATION:
@@ -73,16 +73,23 @@ export async function POST(request: Request) {
 
         - Core Medium & Style: Identify the exact style/medium (e.g., "Makoto Shinkai anime illustration", "1970s retro film poster", "Impressionist oil painting with impasto brushstrokes", "Cinematic portrait photograph").
         - Layout & Composition: Detail layout, framing, multi-panel scrapbooks, torn paper edges, stickers, or shot angles.
+        - Frame count & grid structure: Describe the EXACT frame count and grid structure (e.g., "A 5-panel photo collage featuring thin white border dividers..."). Detail each panel's specific location and shot type.
         - Subject & Pose: Describe the character/subject, pose, action, and facial expression.
         - Lighting & Atmosphere: Detail light sources, color tones, backlighting, shadows, and mood.
         - Textures & Overlays: Specify paper textures, film grain, graphic widgets, handwriting script, or digital painterly effects.
         - Fine Details: Capture micro-details like apparel textures, accessories, jewelry, background depth, or specialized brushwork.
 
-        3. STRICTLY FOLLOW THE USER'S SELECTIONS:
-        - SELECTED FEATURES TO COPY: ${included.join(", ")}.
+        3. MANDATORY SPATIAL GRID ANALYSIS (Do this first internally):
+        - Count the EXACT total number of distinct panels/frames in the collage.
+        - Map their positions precisely (e.g., "a tall vertical panel on the left occupying half the image, two stacked square frames on the top right, and two split frames on the bottom").
+        - DO NOT default to generic terms like "2x2 grid" unless it is strictly 4 equal quadrants.
+
+        4. STRICTLY FOLLOW THE USER'S SELECTIONS:
+        - SELECTED FEATURES TO COPY: ${included.join(", ")}.  
         - EXCLUSION RULES: ${ignored || "Extract all key visual details freely."}
 
         STRICT CONSTRAINTS:
+        - Be 100% accurate with panel count and spatial layout.
         - Always refer to the target subject strictly as "the subject", example - "cinematic portrait of the subject in this .." .
         - Never use terms like "sensual", "intimate", "erotic", or "bare skin". Use neutral terms like "warm aesthetic" or "cultural attire".
         - Do not use real brand or trademark names; describe visual elements generically.
