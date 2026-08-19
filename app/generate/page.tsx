@@ -113,7 +113,7 @@ export default function GeneratePage() {
     <div className="min-h-screen bg-neutral-50 selection:bg-violet-500 selection:text-white">
       <SiteHeader />
 
-      <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:max-w-6xl xl:max-w-7xl lg:px-8 lg:py-20">
+      <main className="mx-auto max-w-5xl px-4 py-5 sm:px-6 sm:py-14 lg:max-w-6xl xl:max-w-7xl lg:px-8 lg:py-10">
         {/* Page header */}
         <div className="mb-10 max-w-2xl lg:max-w-3xl lg:mb-14">
           <p className="section-label lg:text-sm">
@@ -211,7 +211,7 @@ export default function GeneratePage() {
                   }
                   className={`flex items-center gap-2.5 sm:gap-3.5 rounded-xl border p-3 sm:p-4 text-left transition-all duration-200 lg:rounded-2xl lg:p-5 ${
                     selected[option.key]
-                      ? "border-violet-300 bg-indigo-900 text-white shadow-md shadow-violet-600/20"
+                      ? "border-violet-300 bg-blue-900 text-white shadow-md shadow-blue-600/20"
                       : "border-neutral-200 bg-white hover:border-neutral-300 hover:bg-neutral-50"
                   }`}
                 >
@@ -334,7 +334,7 @@ export default function GeneratePage() {
 
         {/* Generated prompt */}
         {prompt && (
-          <section className="mt-6 overflow-hidden rounded-2xl border border-violet-100 bg-gradient-to-br from-violet-50/50 to-fuchsia-50/30 shadow-sm lg:mt-8 lg:rounded-3xl">
+          <section className="mt-6 overflow-hidden rounded-2xl border border-violet-100 bg-gradient-to-br from-violet-50/50 to-fuchsia-50/30 shadow-md lg:mt-8 lg:rounded-3xl">
             <div className="flex items-center justify-between gap-4 border-b border-violet-100/70 px-5 py-4 sm:px-6 lg:px-8 lg:py-5">
               <p className="section-label lg:text-sm">
                 <Sparkles className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
@@ -343,10 +343,10 @@ export default function GeneratePage() {
               <button
                 type="button"
                 onClick={copy}
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200 lg:px-5 lg:py-2.5 lg:text-sm ${
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs whitespace-nowrap font-semibold transition-all duration-200 lg:px-5 lg:py-2.5 lg:text-sm ${
                   copied
                     ? "bg-emerald-500 text-white shadow-sm shadow-emerald-500/25"
-                    : "border border-violet-200 bg-white text-violet-700 hover:bg-violet-50"
+                    : "border border-violet-200 bg-white text-violet-700 hover:bg-violet-50 shadow-md "
                 }`}
               >
                 {copied ? (
