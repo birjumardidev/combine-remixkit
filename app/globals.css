@@ -224,4 +224,25 @@
   .animate-fade-up-delay-1 { animation-delay: 0.1s; }
   .animate-fade-up-delay-2 { animation-delay: 0.2s; }
   .animate-fade-up-delay-3 { animation-delay: 0.3s; }
+
+  /* ─── Laser Scanner Animation ─────────────────────────── */
+  @keyframes scanLine {
+    0% {
+      top: 0%;
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    85% {
+      opacity: 1;
+    }
+    100% {
+      top: 98%;
+      opacity: 0;
+    }
+  }
+  .animate-scan-line {
+    animation: scanLine 2.2s ease-in-out infinite alternate;
+  }
 }

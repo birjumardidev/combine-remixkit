@@ -64,51 +64,51 @@ export const metadata = {
 
 export default function PromptCategories() {
   return (
-    <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16 lg:max-w-6xl xl:max-w-7xl lg:px-8 lg:py-24">
       {/* Header */}
-      <div className="mb-12">
-        <p className="section-label">
-          <Sparkles className="h-3.5 w-3.5" />
+      <div className="mb-12 lg:mb-16">
+        <p className="section-label lg:text-sm">
+          <Sparkles className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
           Prompt Categories
         </p>
-        <h1 className="mt-4 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
+        <h1 className="mt-4 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
           AI Image Editing Prompts for Photo Retouching
         </h1>
-        <p className="mt-4 max-w-2xl text-base leading-7 text-neutral-500">
+        <p className="mt-4 max-w-2xl text-base leading-7 text-neutral-500 lg:text-xl lg:leading-8 lg:max-w-3xl">
           Fast, ready-to-copy AI prompt pages for everyday photo editing tasks
           like background changes, headshots, and cinematic effects.
         </p>
       </div>
 
       {/* Category grid */}
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-2 lg:gap-8">
         {categories.map((category) => (
           <section
             key={category.slug}
-            className={`group relative overflow-hidden rounded-2xl border border-neutral-200 bg-gradient-to-br ${category.color} p-7 shadow-sm transition-all duration-300 hover:border-neutral-300 hover:shadow-md hover:-translate-y-0.5`}
+            className={`group relative overflow-hidden rounded-2xl border border-neutral-200 bg-gradient-to-br ${category.color} p-7 shadow-sm transition-all duration-300 hover:border-neutral-300 hover:shadow-md hover:-translate-y-0.5 lg:rounded-3xl lg:p-9 xl:p-10`}
           >
             {/* Category badge */}
-            <div className="mb-4 flex items-center justify-between">
-              <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold ${category.accent}`}>
+            <div className="mb-4 flex items-center justify-between lg:mb-6">
+              <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold lg:px-3.5 lg:py-1.5 lg:text-sm ${category.accent}`}>
                 <span>{category.emoji}</span>
                 {category.title}
               </span>
             </div>
 
-            <p className="text-sm leading-6 text-neutral-600">
+            <p className="text-sm leading-6 text-neutral-600 lg:text-base lg:leading-7">
               {category.description}
             </p>
 
             {/* Links */}
-            <div className="mt-5 space-y-2.5">
+            <div className="mt-5 space-y-2.5 lg:mt-7 lg:space-y-3">
               {category.pages.map((page) => (
                 <Link
                   key={page.href}
                   href={page.href}
-                  className="flex items-center justify-between rounded-xl border border-neutral-200/70 bg-white px-4 py-3 text-sm font-medium text-neutral-800 shadow-sm transition-all duration-200 hover:border-violet-200 hover:bg-white hover:shadow hover:text-violet-700"
+                  className="flex items-center justify-between rounded-xl border border-neutral-200/70 bg-white px-4 py-3 text-sm font-medium text-neutral-800 shadow-sm transition-all duration-200 hover:border-violet-200 hover:bg-white hover:shadow hover:text-violet-700 lg:px-5 lg:py-4 lg:text-base lg:rounded-2xl"
                 >
                   <span>{page.title}</span>
-                  <ArrowRight className="h-3.5 w-3.5 text-neutral-400 transition-transform group-hover:translate-x-0.5" />
+                  <ArrowRight className="h-3.5 w-3.5 text-neutral-400 transition-transform group-hover:translate-x-0.5 lg:h-4 lg:w-4" />
                 </Link>
               ))}
             </div>

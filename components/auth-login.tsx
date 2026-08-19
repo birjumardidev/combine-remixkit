@@ -37,7 +37,7 @@ export function AuthLogin() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-neutral-50 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-neutral-50 p-4 lg:p-8">
       {/* Background decoration */}
       <div
         aria-hidden
@@ -47,28 +47,28 @@ export function AuthLogin() {
         }}
       />
 
-      <div className="relative w-full max-w-md">
+      <div className="relative w-full max-w-md lg:max-w-lg">
         {/* Card */}
-        <div className="rounded-2xl border border-neutral-200 bg-white p-8 shadow-xl shadow-neutral-200/50">
+        <div className="rounded-2xl border border-neutral-200 bg-white p-8 shadow-xl shadow-neutral-200/50 lg:rounded-3xl lg:p-10">
           {/* Logo */}
-          <div className="mb-8 flex flex-col items-center text-center">
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-600 shadow-lg shadow-violet-500/25">
-              <Wand2 className="h-6 w-6 text-white" />
+          <div className="mb-8 flex flex-col items-center text-center lg:mb-10">
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-600 shadow-lg shadow-violet-500/25 lg:h-14 lg:w-14">
+              <Wand2 className="h-6 w-6 text-white lg:h-7 lg:w-7" />
             </span>
-            <h1 className="mt-4 text-2xl font-bold tracking-tight text-neutral-900">
+            <h1 className="mt-4 text-2xl font-bold tracking-tight text-neutral-900 lg:text-3xl">
               Admin Access
             </h1>
-            <p className="mt-1.5 text-sm text-neutral-500">
+            <p className="mt-1.5 text-sm text-neutral-500 lg:text-base">
               Sign in to your RemixKit account
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5 lg:space-y-6">
             {/* Email */}
             <div className="space-y-2">
               <Label
                 htmlFor="email"
-                className="text-sm font-semibold text-neutral-700"
+                className="text-sm font-semibold text-neutral-700 lg:text-base"
               >
                 Email
               </Label>
@@ -80,7 +80,7 @@ export function AuthLogin() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={loading}
-                className="h-11 rounded-xl border-neutral-200 bg-neutral-50 text-sm focus-visible:ring-violet-500/20 focus-visible:border-violet-400"
+                className="h-11 rounded-xl border-neutral-200 bg-neutral-50 text-sm focus-visible:ring-violet-500/20 focus-visible:border-violet-400 lg:h-12 lg:text-base lg:rounded-2xl"
               />
             </div>
 
@@ -88,7 +88,7 @@ export function AuthLogin() {
             <div className="space-y-2">
               <Label
                 htmlFor="password"
-                className="text-sm font-semibold text-neutral-700"
+                className="text-sm font-semibold text-neutral-700 lg:text-base"
               >
                 Password
               </Label>
@@ -101,7 +101,7 @@ export function AuthLogin() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   disabled={loading}
-                  className="h-11 rounded-xl border-neutral-200 bg-neutral-50 pr-11 text-sm focus-visible:ring-violet-500/20 focus-visible:border-violet-400"
+                  className="h-11 rounded-xl border-neutral-200 bg-neutral-50 pr-11 text-sm focus-visible:ring-violet-500/20 focus-visible:border-violet-400 lg:h-12 lg:text-base lg:rounded-2xl"
                 />
                 <button
                   type="button"
@@ -110,9 +110,9 @@ export function AuthLogin() {
                   tabIndex={-1}
                 >
                   {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
+                    <EyeOff className="h-4 w-4 lg:h-5 lg:w-5" />
                   ) : (
-                    <Eye className="h-4 w-4" />
+                    <Eye className="h-4 w-4 lg:h-5 lg:w-5" />
                   )}
                 </button>
               </div>
@@ -122,9 +122,9 @@ export function AuthLogin() {
             {error && (
               <Alert
                 variant="destructive"
-                className="rounded-xl border-red-200 bg-red-50"
+                className="rounded-xl border-red-200 bg-red-50 lg:rounded-2xl"
               >
-                <AlertDescription className="text-sm text-red-700">
+                <AlertDescription className="text-sm text-red-700 lg:text-base">
                   {error}
                 </AlertDescription>
               </Alert>
@@ -132,8 +132,8 @@ export function AuthLogin() {
 
             {/* Success */}
             {success && (
-              <Alert className="rounded-xl border-emerald-200 bg-emerald-50">
-                <AlertDescription className="text-sm text-emerald-700">
+              <Alert className="rounded-xl border-emerald-200 bg-emerald-50 lg:rounded-2xl">
+                <AlertDescription className="text-sm text-emerald-700 lg:text-base">
                   {success}
                 </AlertDescription>
               </Alert>
@@ -142,7 +142,7 @@ export function AuthLogin() {
             {/* Submit */}
             <Button
               type="submit"
-              className="h-11 w-full rounded-xl bg-violet-600 text-sm font-semibold text-white shadow-md shadow-violet-600/20 transition-all hover:bg-violet-700 hover:shadow-violet-600/30 disabled:opacity-60"
+              className="h-11 w-full rounded-xl bg-violet-600 text-sm font-semibold text-white shadow-md shadow-violet-600/20 transition-all hover:bg-violet-700 hover:shadow-violet-600/30 disabled:opacity-60 lg:h-12 lg:text-base lg:rounded-2xl"
               disabled={loading || !email || !password}
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

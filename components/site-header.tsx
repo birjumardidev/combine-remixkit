@@ -15,28 +15,28 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-neutral-200/60 bg-white/90 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8 xl:px-12 lg:py-4">
         {/* Logo */}
         <Link
           href="/"
           className="flex items-center gap-2.5 group"
           onClick={() => setOpen(false)}
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-neutral-900 shadow-md shadow-violet-500/25 transition-all duration-300 group-hover:shadow-violet-500/40 group-hover:scale-105">
-            <Wand2 className="h-[17px] w-[17px] text-white" />
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-neutral-900 shadow-md shadow-violet-500/25 transition-all duration-300 group-hover:shadow-violet-500/40 group-hover:scale-105 lg:h-10 lg:w-10">
+            <Wand2 className="h-[17px] w-[17px] text-white lg:h-5 lg:w-5" />
           </span>
-          <span className="text-[1.05rem] font-bold tracking-tight text-neutral-900">
+          <span className="text-[1.05rem] font-bold tracking-tight text-neutral-900 lg:text-xl">
             RemixKit
           </span>
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-1 sm:flex" aria-label="Main navigation">
+        <nav className="hidden items-center gap-1.5 sm:flex lg:gap-2" aria-label="Main navigation">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="relative rounded-lg px-3.5 py-2 text-sm font-medium text-neutral-600 transition-all duration-200 hover:text-neutral-900 hover:bg-neutral-100 lg:px-4"
+              className="relative rounded-lg px-3.5 py-2 text-sm font-medium text-neutral-600 transition-all duration-200 hover:text-neutral-900 hover:bg-neutral-100 lg:px-4.5 lg:py-2.5 lg:text-lg lg:font-semibold"
             >
               {link.label}
             </Link>
@@ -46,9 +46,9 @@ export function SiteHeader() {
         {/* CTA */}
         <Link
           href="/generate"
-          className="hidden sm:inline-flex items-center gap-2 rounded-full bg-neutral-900 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-neutral-700 hover:shadow-lg hover:shadow-neutral-900/15 active:scale-[0.98]"
+          className="hidden sm:inline-flex items-center gap-2 rounded-full bg-neutral-900 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-neutral-700 hover:shadow-lg hover:shadow-neutral-900/15 active:scale-[0.98] lg:px-7 lg:py-3.5 lg:text-[16px]"
         >
-          <Sparkles className="h-3.5 w-3.5" />
+          <Sparkles className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
           Generate Prompt
         </Link>
 
