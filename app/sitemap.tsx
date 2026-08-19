@@ -1,34 +1,22 @@
 import { MetadataRoute } from "next";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.remixkit.in";
+const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.remixkit.in"
+).replace(/\/$/, "");
 
-// Removed "admin" from static pages to prevent indexing sensitive pages
-const staticPages = ["", "prompts"];
+const staticPages = ["", "prompts", "library", "generate"];
 
-const categories = [
-  "photorealism",
-  "minimalist",
-  "portrait",
-  "landscape",
-  "concept-art",
-  "vintage",
-  "cinematic",
-  "abstract",
-  "editorial",
-  "cartoon-chibi",
-];
-
-const promptSlugs = [
-  "bioluminescent-fantasy-forest-prompt",
-  "midnight-noir-fashion-editorial-prompt",
-  "vaporwave-cyberpunk-cityscape-prompt",
-  "ethereal-high-fashion-portrait-prompt",
-  "mechanical-steampunk-dragon-prompt",
-  "mystical-astral-temple-prompt",
-  "gothic-cathedral-ruins-prompt",
-  "sunset-desert-landschaft-prompt",
-  "hyperrealistic-food-photography-prompt",
-  "retro-futuristic-racing-prompt",
+const promptPages = [
+  "change-background/office",
+  "change-background/beach",
+  "change-background/sunset-sky",
+  "portrait-enhancement/professional-headshot",
+  "portrait-enhancement/sharpen-blurry-portrait",
+  "portrait-enhancement/magazine-cover",
+  "remove-elements/remove-people",
+  "remove-elements/remove-watermark",
+  "creative-mood/cinematic-look",
+  "creative-mood/add-mood-lighting",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -42,17 +30,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 1.0,
   }));
 
-  // Category Pages
-  const categoryUrls = categories.map((category) => ({
+  // Prompt category pages
+  const categoryUrls = [
+    "change-background",
+    "portrait-enhancement",
+    "remove-elements",
+    "creative-mood",
+  ].map((category) => ({
     url: `${siteUrl}/prompts/${category}`,
     lastModified: currentDate,
     changeFrequency: "weekly" as const,
     priority: 0.8,
   }));
 
-  // Individual Prompt Pages
-  const promptUrls = promptSlugs.map((slug) => ({
-    url: `${siteUrl}/prompts/${slug}`,
+  // Individual prompt pages
+  const promptUrls = promptPages.map((path) => ({
+    url: `${siteUrl}/prompts/${path}`,
     lastModified: currentDate,
     changeFrequency: "monthly" as const,
     priority: 0.7,

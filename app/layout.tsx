@@ -2,7 +2,9 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { jakarta } from "@/lib/fonts";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
+const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.remixkit.in"
+).replace(/\/$/, "");
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 let supabaseHost: string | undefined;
 try {
@@ -63,9 +65,7 @@ export default function RootLayout({
         />
         <link rel="dns-prefetch" href="https://imagedelivery.net" />
       </head>
-      <body className={`${jakarta.className} antialiased`}>
-        {children}
-      </body>
+      <body className={`${jakarta.className} antialiased`}>{children}</body>
     </html>
   );
 }

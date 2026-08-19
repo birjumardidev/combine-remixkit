@@ -1,25 +1,75 @@
 "use client";
 
 import { ChangeEvent, DragEvent, useEffect, useRef, useState } from "react";
-import { Check, Copy, ImagePlus, Loader2, Sparkles, Upload, Wand2 } from "lucide-react";
+import Image from "next/image";
+import {
+  Check,
+  Copy,
+  ImagePlus,
+  Loader2,
+  Sparkles,
+  Upload,
+  Wand2,
+} from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 type Feature = "pose" | "background" | "lighting" | "outfit";
-const options: { key: Feature; label: string; detail: string; emoji: string }[] = [
-  { key: "pose", label: "Pose & framing", detail: "Subject position and camera composition", emoji: "🎭" },
-  { key: "background", label: "Background", detail: "Scene and environment", emoji: "🌅" },
-  { key: "lighting", label: "Lighting & vibe", detail: "Atmosphere and colour", emoji: "✨" },
-  { key: "outfit", label: "Outfit & styling", detail: "Clothing and accessories", emoji: "👗" },
+const options: {
+  key: Feature;
+  label: string;
+  detail: string;
+  emoji: string;
+}[] = [
+  {
+    key: "pose",
+    label: "Pose & framing",
+    detail: "Subject position and camera composition",
+    emoji: "🎭",
+  },
+  {
+    key: "background",
+    label: "Background",
+    detail: "Scene and environment",
+    emoji: "🌅",
+  },
+  {
+    key: "lighting",
+    label: "Lighting & vibe",
+    detail: "Atmosphere and colour",
+    emoji: "✨",
+  },
+  {
+    key: "outfit",
+    label: "Outfit & styling",
+    detail: "Clothing and accessories",
+    emoji: "👗",
+  },
 ];
 
 const GENERATION_STEPS = [
-  { label: "Scanning image composition & subject pose...", icon: "📸", progress: 25 },
-  { label: "Analyzing lighting, color palette & environment...", icon: "✨", progress: 55 },
-  { label: "Isolating chosen feature tags & styling...", icon: "🎯", progress: 80 },
-  { label: "Synthesizing high-precision AI prompt...", icon: "⚡", progress: 95 },
+  {
+    label: "Scanning image composition & subject pose...",
+    icon: "📸",
+    progress: 25,
+  },
+  {
+    label: "Analyzing lighting, color palette & environment...",
+    icon: "✨",
+    progress: 55,
+  },
+  {
+    label: "Isolating chosen feature tags & styling...",
+    icon: "🎯",
+    progress: 80,
+  },
+  {
+    label: "Synthesizing high-precision AI prompt...",
+    icon: "⚡",
+    progress: 95,
+  },
 ];
 
 const valid = (file: File) =>
@@ -45,16 +95,17 @@ export default function GeneratePage() {
     () => () => {
       if (preview) URL.revokeObjectURL(preview);
     },
-    [preview]
+    [preview],
   );
 
   useEffect(() => {
     if (!busy) {
-      setLoadingStep(0);
       return;
     }
     const interval = setInterval(() => {
-      setLoadingStep((curr) => (curr < GENERATION_STEPS.length - 1 ? curr + 1 : curr));
+      setLoadingStep((curr) =>
+        curr < GENERATION_STEPS.length - 1 ? curr + 1 : curr,
+      );
     }, 1200);
     return () => clearInterval(interval);
   }, [busy]);
@@ -75,7 +126,10 @@ export default function GeneratePage() {
   }
 
   async function generate() {
-    if (!file) { setError("Add a reference image first."); return; }
+    if (!file) {
+      setError("Add a reference image first.");
+      return;
+    }
     if (!Object.values(selected).some(Boolean)) {
       setError("Choose at least one detail to include.");
       return;
@@ -90,10 +144,13 @@ export default function GeneratePage() {
     try {
       const response = await fetch("/api/edit", { method: "POST", body: data });
       const body = await response.json();
-      if (!response.ok) throw new Error(body.error || "We could not generate a prompt.");
+      if (!response.ok)
+        throw new Error(body.error || "We could not generate a prompt.");
       setPrompt(body.prompt);
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "Something went wrong.");
+      setError(
+        cause instanceof Error ? cause.message : "Something went wrong.",
+      );
     } finally {
       setBusy(false);
     }
@@ -132,7 +189,11 @@ export default function GeneratePage() {
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-8 xl:gap-10">
           {/* ── Step 1: Upload ─────────────────────────────── */}
           <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-7 lg:rounded-3xl lg:p-9 xl:p-10">
-            <Step n="01" title="Add your reference image" text="JPG, PNG, or WEBP up to 10 MB." />
+            <Step
+              n="01"
+              title="Add your reference image"
+              text="JPG, PNG, or WEBP up to 10 MB."
+            />
 
             <button
               type="button"
@@ -146,9 +207,11 @@ export default function GeneratePage() {
             >
               {preview ? (
                 <div className="relative h-full w-full">
-                  <img
+                  <Image
                     src={preview}
                     alt="Reference preview"
+                    fill
+                    unoptimized
                     className="h-full w-full object-cover rounded-lg lg:rounded-xl"
                   />
                   {busy && (
@@ -254,7 +317,9 @@ export default function GeneratePage() {
             role="alert"
             className="mt-5 flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3.5 text-sm text-red-700 lg:text-base lg:p-5 lg:rounded-2xl"
           >
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600 text-xs font-bold lg:h-6 lg:w-6 lg:text-sm">!</span>
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600 text-xs font-bold lg:h-6 lg:w-6 lg:text-sm">
+              !
+            </span>
             {error}
           </div>
         )}
@@ -268,11 +333,11 @@ export default function GeneratePage() {
             "mt-6 flex w-full items-center justify-center gap-2.5 rounded-xl py-4 text-sm font-semibold text-white shadow-lg transition-all duration-200 lg:mt-8 lg:py-5 lg:text-base lg:font-bold lg:rounded-2xl",
             busy
               ? "bg-neutral-700 cursor-wait"
-              : "bg-neutral-900 shadow-neutral-600/25 hover:bg-neutral-700 active:scale-[0.99]"
+              : "bg-neutral-900 shadow-neutral-600/25 hover:bg-neutral-700 active:scale-[0.99]",
           )}
         >
-              <Sparkles className="h-4 w-4 lg:h-5 lg:w-5" />
-              <span>Generate prompt</span>
+          <Sparkles className="h-4 w-4 lg:h-5 lg:w-5" />
+          <span>Generate prompt</span>
         </button>
 
         {/* Live Generation Progress Animation */}
@@ -376,8 +441,12 @@ function Step({ n, title, text }: { n: string; title: string; text: string }) {
         {n}
       </span>
       <div>
-        <h2 className="text-base font-bold text-neutral-900 lg:text-xl">{title}</h2>
-        <p className="mt-0.5 text-xs text-neutral-500 lg:text-sm lg:mt-1">{text}</p>
+        <h2 className="text-base font-bold text-neutral-900 lg:text-xl">
+          {title}
+        </h2>
+        <p className="mt-0.5 text-xs text-neutral-500 lg:text-sm lg:mt-1">
+          {text}
+        </p>
       </div>
     </div>
   );

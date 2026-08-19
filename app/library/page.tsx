@@ -178,7 +178,7 @@ function LibraryHeader({
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-neutral-900 shadow-md shadow-violet-500/25 transition-all duration-300 group-hover:scale-105 lg:h-10 lg:w-10">
             <Wand2 className="h-[17px] w-[17px] text-white lg:h-5 lg:w-5" />
           </span>
-          <span className="hidden text-[1.05rem] font-bold tracking-tight text-neutral-900 sm:block lg:text-xl">
+          <span className="hidden text-[1.05rem] font-bold tracking-tight text-neutral-900 sm:block lg:text-lg">
             RemixKit
           </span>
         </Link>

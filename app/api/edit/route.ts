@@ -3,12 +3,49 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
+const MAX_REQUEST_SIZE = MAX_FILE_SIZE + 256 * 1024;
+const RATE_LIMIT_WINDOW = 60_000;
+const MAX_REQUESTS_PER_WINDOW = 5;
 const allowedTypes = new Set(["image/jpeg", "image/png", "image/webp"]);
 const featureKeys = ["pose", "background", "lighting", "outfit"] as const;
 type FeatureKey = (typeof featureKeys)[number];
+const requestCounts = new Map<string, { count: number; resetAt: number }>();
+
+function getClientKey(request: Request) {
+  return (
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    "unknown"
+  );
+}
+
+function isRateLimited(clientKey: string) {
+  const now = Date.now();
+  const current = requestCounts.get(clientKey);
+  if (!current || current.resetAt <= now) {
+    requestCounts.set(clientKey, {
+      count: 1,
+      resetAt: now + RATE_LIMIT_WINDOW,
+    });
+    return false;
+  }
+  current.count += 1;
+  return current.count > MAX_REQUESTS_PER_WINDOW;
+}
 
 export async function POST(request: Request) {
   try {
+    if (Number(request.headers.get("content-length") || 0) > MAX_REQUEST_SIZE)
+      return NextResponse.json(
+        { error: "The uploaded request is too large." },
+        { status: 413 },
+      );
+    if (isRateLimited(getClientKey(request)))
+      return NextResponse.json(
+        { error: "Too many requests. Please try again in a minute." },
+        { status: 429, headers: { "Retry-After": "60" } },
+      );
+
     const form = await request.formData();
     const reference = form.get("reference");
     const preserve = form.get("preserve");
@@ -26,8 +63,19 @@ export async function POST(request: Request) {
         { error: "Use a JPG, PNG, or WEBP image up to 10 MB." },
         { status: 400 },
       );
-    const selections = JSON.parse(preserve) as Record<FeatureKey, boolean>;
-    const included = featureKeys.filter((key) => selections[key]);
+    let selections: Partial<Record<FeatureKey, boolean>>;
+    try {
+      const parsed = JSON.parse(preserve);
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed))
+        throw new Error("Invalid choices");
+      selections = parsed as Partial<Record<FeatureKey, boolean>>;
+    } catch {
+      return NextResponse.json(
+        { error: "Invalid feature choices." },
+        { status: 400 },
+      );
+    }
+    const included = featureKeys.filter((key) => selections[key] === true);
     if (!included.length)
       return NextResponse.json(
         { error: "Choose at least one detail." },
@@ -42,12 +90,18 @@ export async function POST(request: Request) {
         },
         { status: 503 },
       );
-    const ignored = featureKeys.filter((key) => !selections[key]).map((key) => {
-      if (key === "pose") return "DO NOT describe the subject pose, position, framing, or camera angle.";
-      if (key === "background") return "DO NOT describe the background, environment, or layout elements.";
-      if (key === "lighting") return "DO NOT describe lighting, color atmosphere, effects, or glow.";
-      return "DO NOT describe clothing, accessories, jewelry, or styling.";
-    }).join("\n");
+    const ignored = featureKeys
+      .filter((key) => !selections[key])
+      .map((key) => {
+        if (key === "pose")
+          return "DO NOT describe the subject pose, position, framing, or camera angle.";
+        if (key === "background")
+          return "DO NOT describe the background, environment, or layout elements.";
+        if (key === "lighting")
+          return "DO NOT describe lighting, color atmosphere, effects, or glow.";
+        return "DO NOT describe clothing, accessories, jewelry, or styling.";
+      })
+      .join("\n");
     const dataUrl = `data:${reference.type};base64,${Buffer.from(await reference.arrayBuffer()).toString("base64")}`;
     const response = await fetch("https://fal.run/openrouter/router/vision", {
       method: "POST",
@@ -94,7 +148,7 @@ export async function POST(request: Request) {
         - Never use terms like "sensual", "intimate", "erotic", or "bare skin". Use neutral terms like "warm aesthetic" or "cultural attire".
         - Do not use real brand or trademark names; describe visual elements generically.
         - Keep the subject description generic without inferring specific personal identities.`,
-              }),
+      }),
     });
 
     const body = await response.json();
@@ -105,7 +159,9 @@ export async function POST(request: Request) {
       throw new Error("The analysis model returned no prompt.");
     const cleanPrompt = prompt.trim();
     if (cleanPrompt.includes("CONTENT_POLICY_VIOLATION"))
-      throw new Error("Image contains restricted content (e.g., swimwear or explicit clothing). Please select a different image.");
+      throw new Error(
+        "Image contains restricted content (e.g., swimwear or explicit clothing). Please select a different image.",
+      );
     return NextResponse.json(
       { prompt: cleanPrompt },
       { headers: { "Cache-Control": "no-store" } },
